@@ -27,9 +27,8 @@ async function getConnection(db) {
 // mock events data - Once deployed the data will come from database
 const mockEvents = {
     events: [
-        { id: 1, title: 'a mock event', description: 'something really cool', location: 'Chez Joe Pizza', likes: 0, datetime_added: '2022-02-01:12:00' },
-        { id: 2, title: 'another mock event', description: 'something even cooler', location: 'Chez John Pizza', likes: 0, datetime_added: '2022-02-01:12:00' },
-        { id: 2, title: 'Rays custom mock event', description: 'This is to see if my custom event will show now ', location: 'The Peoples Elbow Mac n Cheese', likes: 35, datetime_added: '2022-06-01:12:00' }
+        { id: 1, title: 'a mock event', description: 'something really cool', location: 'Chez Joe Pizza', likes: 0, datetime_added: '2022-02-01:12:00', image_uri: null },
+        { id: 2, title: 'another mock event', description: 'something even cooler', location: 'Chez John Pizza', likes: 0, datetime_added: '2022-02-01:12:00', image_uri: null },
     ]
 };
 
@@ -38,7 +37,7 @@ const dbEvents = { events: [] };
 async function getEvents(db = mariadb) {
     const conn = await getConnection(db);
     if (conn) {
-        const sql = 'SELECT id, title, description, location, likes, datetime_added FROM events;';
+        const sql = 'SELECT id, title, description, location, likes, datetime_added, image_uri FROM events;';
         return conn.query(sql)
             .then(rows => {
                 console.log(rows);
@@ -50,7 +49,8 @@ async function getEvents(db = mariadb) {
                         location: row.location,
                         id: row.id,
                         likes: row.likes,
-                        datetime_added: row.datetime_added
+                        datetime_added: row.datetime_added,
+                        image_uri: raw.image_uri,
                     };
                     dbEvents.events.push(ev);
                 });
@@ -67,7 +67,7 @@ async function getEvents(db = mariadb) {
             });
     }
     else {
-        console.log("Else for MOcke events no DB info ");
+        console.log("Else for Mocke events no DB info ");
         return mockEvents;
     }
 
@@ -83,10 +83,11 @@ async function addEvent(req, db = mariadb) {
         location: req.body.location,
         id: mockEvents.events.length + 1,
         likes: 0,
-        datetime_added: new Date().toUTCString()
+        datetime_added: new Date().toUTCString(),
+        image_uri: null,
     }
-    const sql = 'INSERT INTO events (title, description, location) VALUES (?,?,?);';
-    const values = [ev.title, ev.description, ev.location];
+    const sql = 'INSERT INTO events (title, description, location, image_uri) VALUES (?,?,?,?);';
+    const values = [ev.title, ev.description, ev.location, ev.image_uri];
     const conn = await getConnection(db);
     if (conn) {
         conn.query(sql, values)
