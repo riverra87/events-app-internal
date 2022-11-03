@@ -1,0 +1,3 @@
+# node ignore files
+node_modules
+npm-debug.log
