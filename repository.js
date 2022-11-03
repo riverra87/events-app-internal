@@ -29,6 +29,8 @@ const mockEvents = {
     events: [
         { id: 1, title: 'a mock event', description: 'something really cool', location: 'Chez Joe Pizza', likes: 0, datetime_added: '2022-02-01:12:00', image_uri: null },
         { id: 2, title: 'another mock event', description: 'something even cooler', location: 'Chez John Pizza', likes: 0, datetime_added: '2022-02-01:12:00', image_uri: null },
+        { id: 3, title: 'Rays Awesome Party', description: 'Ray is throwing the coolest event ever', location: 'Out of this world Amusement Park', likes: 50, datetime_added: '2022-04-01:12:00', image_uri: null },
+        { id: 4, title: 'Parkers Park day', description: 'Hosting a nice relaxing day in the park', location: 'Park Parkington', likes: 79, datetime_added: '2022-04-01:12:00', image_uri: null }
     ]
 };
 
